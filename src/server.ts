@@ -1,10 +1,12 @@
 import express, { Request, Response, Express } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-
+import connectionToDatabase from "./database/connection.js";
 import questionRouter from "./routes/questionRouter.js";
 
 dotenv.config();
+
+connectionToDatabase();
 
 const app: Express = express();
 

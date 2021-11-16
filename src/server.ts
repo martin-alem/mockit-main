@@ -2,6 +2,8 @@ import express, { Request, Response, Express } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 
+import questionRouter from "./routes/questionRouter.js";
+
 dotenv.config();
 
 const app: Express = express();
@@ -21,10 +23,10 @@ app.use(express.json());
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({ status: 200, statusText: "OK", message: "Main server up and running" });
-} );
+});
 
 //Question resource
-
+app.use("/api/v1/question", questionRouter);
 
 app.all("*", (req: Request, res: Response) => {
   res.status(404).json({ status: 404, statusText: "fail", message: "The path you are requesting does not exist" });

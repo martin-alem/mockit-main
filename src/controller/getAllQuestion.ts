@@ -4,7 +4,7 @@ import Logger from "./../utils/Logger.js";
 import QuestionModel from "./../model/QuestionModel.js";
 import { findAll } from "./../service/query.js";
 
-async function getAllQuestion(req: Request, res: Response, next: NextFunction) {
+async function getAllQuestion(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const questions = await findAll(QuestionModel);
     if (questions) {

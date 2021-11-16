@@ -11,4 +11,13 @@ export async function findAll(model: mongoose.Model<any, {}, {}, {}>): Promise<D
   }
 }
 
+export async function insertOne(model: mongoose.Model<any, {}, {}, {}>, data: { [key: string]: any }): Promise<any> {
+  try {
+    const result = await model.create(data);
+    return result;
+  } catch (error) {
+    Logger.log("Error", error as Error, import.meta.url);
+    throw error;
+  }
+}
 

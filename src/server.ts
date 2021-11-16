@@ -23,6 +23,7 @@ app.get("/", (req: Request, res: Response) => {
   res.status(200).json({ status: 200, statusText: "OK", message: "Main server up and running" });
 } );
 
+//Question resource
 
 
 app.all("*", (req: Request, res: Response) => {

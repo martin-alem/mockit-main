@@ -21,3 +21,19 @@ export async function insertOne(model: mongoose.Model<any, {}, {}, {}>, data: { 
   }
 }
 
+
+export async function findAndUpdate(
+  model: mongoose.Model<any, {}, {}, {}>,
+  filter: { [key: string]: any },
+  data: { [key: string]: any }
+): Promise<Document | undefined> {
+  try {
+    const document: Document = await model.findOneAndUpdate(filter, data, { new: true });
+    return document;
+  } catch (error) {
+    Logger.log("Error", error as Error, import.meta.url);
+    throw error;
+  }
+}
+
+

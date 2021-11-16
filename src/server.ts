@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import connectionToDatabase from "./database/connection.js";
 import questionRouter from "./routes/questionRouter.js";
 import userRouter from "./routes/userRouter.js";
+import profileRouter from "./routes/profileRouter.js";
 
 dotenv.config();
 
@@ -33,6 +34,9 @@ app.use("/api/v1/question", questionRouter);
 
 //User resource
 app.use("/api/v1/user", userRouter);
+
+//Profile resource
+app.use("/api/v1/profile", profileRouter);
 
 app.all("*", (req: Request, res: Response) => {
   res.status(404).json({ status: 404, statusText: "fail", message: "The path you are requesting does not exist" });

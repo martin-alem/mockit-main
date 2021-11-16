@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectionToDatabase from "./database/connection.js";
 import questionRouter from "./routes/questionRouter.js";
+import userRouter from "./routes/userRouter.js";
 
 dotenv.config();
 
@@ -29,6 +30,9 @@ app.get("/", (req: Request, res: Response) => {
 
 //Question resource
 app.use("/api/v1/question", questionRouter);
+
+//User resource
+app.use("/api/v1/user", userRouter);
 
 app.all("*", (req: Request, res: Response) => {
   res.status(404).json({ status: 404, statusText: "fail", message: "The path you are requesting does not exist" });

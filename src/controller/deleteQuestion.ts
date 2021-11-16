@@ -3,17 +3,15 @@ import mongoose from "mongoose";
 import ErrorHandler from "./../utils/ErrorHandler.js";
 import Logger from "./../utils/Logger.js";
 import QuestionModel from "./../model/QuestionModel.js";
-import { findAndUpdate } from "./../service/query.js";
+import { findAndDelete } from "./../service/query.js";
 
-async function updateQuestion(req: Request, res: Response, next: NextFunction) {
+async function deleteQuestion(req: Request, res: Response, next: NextFunction) {
   try {
-    const { title, editorContent, difficulty } = req.body;
     const { questionId } = req.params;
     if (!mongoose.Types.ObjectId.isValid(questionId)) {
       res.status(400).json({ status: "fail", statusCode: 400, message: "invalid field provided" });
     } else {
-      const data = { title, content: editorContent, difficulty, createdAt: new Date() };
-      const result = await findAndUpdate(QuestionModel, { _id: questionId }, data);
+      const result = await findAndDelete(QuestionModel, { _id: questionId });
       if (result) {
         res.status(200).json({ status: "ok", statusCode: 200, question: result });
       } else {
@@ -26,4 +24,4 @@ async function updateQuestion(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-export default updateQuestion;
+export default deleteQuestion;

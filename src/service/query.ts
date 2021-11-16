@@ -1,9 +1,9 @@
 import Logger from "./../utils/Logger.js";
-import mongoose, { Document} from "mongoose";
+import mongoose, { Document } from "mongoose";
 
 export async function findAll(model: mongoose.Model<any, {}, {}, {}>): Promise<Document[] | undefined> {
   try {
-    const document: Document[] = await model.find( {} );
+    const document: Document[] = await model.find({});
     return document;
   } catch (error) {
     Logger.log("Error", error as Error, import.meta.url);
@@ -21,7 +21,6 @@ export async function insertOne(model: mongoose.Model<any, {}, {}, {}>, data: { 
   }
 }
 
-
 export async function findAndUpdate(
   model: mongoose.Model<any, {}, {}, {}>,
   filter: { [key: string]: any },
@@ -36,4 +35,12 @@ export async function findAndUpdate(
   }
 }
 
-
+export async function findAndDelete(model: mongoose.Model<any, {}, {}, {}>, filter: { [key: string]: any }) {
+  try {
+    const document: Document = await model.findOneAndDelete(filter);
+    return document;
+  } catch (error) {
+    Logger.log("Error", error as Error, import.meta.url);
+    throw error;
+  }
+}

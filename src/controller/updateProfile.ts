@@ -13,7 +13,7 @@ async function updateQuestion(req: Request, res: Response, next: NextFunction) {
       res.status(400).json({ status: "fail", statusCode: 400, message: "invalid field provided" });
     } else {
       const data = { nickName, emailAddress, languages, difficulty, lastUpdate: new Date() };
-      const result = await findAndUpdate(ProfileModel, { _id: userId }, data);
+      const result = await findAndUpdate(ProfileModel, { userId: userId }, data);
       if (result) {
         res.status(200).json({ status: "ok", statusCode: 200, profile: result });
       } else {

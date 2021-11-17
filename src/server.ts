@@ -1,5 +1,6 @@
 import express, { Request, Response, Express } from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import connectionToDatabase from "./database/connection.js";
 import questionRouter from "./routes/questionRouter.js";
@@ -11,6 +12,8 @@ dotenv.config();
 connectionToDatabase();
 
 const app: Express = express();
+
+app.use(cookieParser());
 
 //Cors configuration
 const corsOptions = {
@@ -42,7 +45,7 @@ app.all("*", (req: Request, res: Response) => {
   res.status(404).json({ status: 404, statusText: "fail", message: "The path you are requesting does not exist" });
 });
 
-const PORT: string = process.env.PORT || `4000`;
+const PORT: string = process.env.PORT || `5000`;
 app.listen(PORT, () => {
   console.log(`Main Server Listening On Port ${PORT}`);
 });

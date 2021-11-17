@@ -5,8 +5,11 @@ import updateProfile from "./../controller/updateProfile.js";
 import getAllProfile from "./../controller/getAllProfile.js";
 import createProfile from "./../controller/createProfile.js";
 import getProfile from "../controller/getProfile.js";
+import authMiddleware from "./../middleware/authMiddleware.js";
 
 const profileRouter: Router = express.Router();
+
+profileRouter.use(authMiddleware);
 
 profileRouter.route("/").get([getAllProfile]).post([validateProfileMiddleware, createProfile]);
 profileRouter.route("/:userId").put([validateProfileMiddleware, updateProfile]).get([getProfile]);

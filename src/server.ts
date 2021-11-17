@@ -1,4 +1,6 @@
 import express, { Request, Response, Express } from "express";
+import { createServer } from "http";
+import { Server } from "socket.io";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
@@ -6,12 +8,15 @@ import connectionToDatabase from "./database/connection.js";
 import questionRouter from "./routes/questionRouter.js";
 import userRouter from "./routes/userRouter.js";
 import profileRouter from "./routes/profileRouter.js";
+import interviewRouter from "./routes/interviewRouter.js";
 
 dotenv.config();
 
 connectionToDatabase();
 
 const app: Express = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer);
 
 app.use(cookieParser());
 
@@ -41,11 +46,20 @@ app.use("/api/v1/user", userRouter);
 //Profile resource
 app.use("/api/v1/profile", profileRouter);
 
+//Interview resource
+app.use("/api/v1/interview", interviewRouter);
+
+// Socket io
+io.on("connect", socket => {
+  console.log("Client connected to socket");
+});
+
+//fallback route
 app.all("*", (req: Request, res: Response) => {
   res.status(404).json({ status: 404, statusText: "fail", message: "The path you are requesting does not exist" });
 });
 
 const PORT: string = process.env.PORT || `5000`;
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
   console.log(`Main Server Listening On Port ${PORT}`);
 });

@@ -13,7 +13,6 @@ async function createInterview(req: Request, res: Response, next: NextFunction) 
       const result = await findAll(QuestionModel);
       if (result) {
         const randomInt = Math.floor(Math.random() + result.length - 1);
-        console.log(randomInt);
         const question = result[randomInt];
         interview["question"] = question["_id"];
       } else {

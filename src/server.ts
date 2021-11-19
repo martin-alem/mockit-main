@@ -14,6 +14,8 @@ dotenv.config();
 
 connectionToDatabase();
 
+const app: Express = express();
+
 //Cors configuration
 const corsOptions = {
   origin: true,
@@ -23,20 +25,21 @@ const corsOptions = {
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
-const app: Express = express();
-const httpServer = createServer(app);
-const io = new Server(httpServer, {
-  cors: {
-    origin: ["http://localhost:3000", "http://192.168.0.71:3000"],
-    methods: ["GET", "POST"],
-  },
-});
-
 app.use(cookieParser());
-
 app.enable("trust proxy");
 app.use(cors(corsOptions));
 app.use(express.json());
+
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: "https://mockit.org",
+    methods: ["GET", "POST", "DELETE", "OPTIONS", "PUT"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+  },
+});
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({ status: 200, statusText: "OK", payload: "Main server up and running" });
@@ -77,6 +80,14 @@ io.on("connect", socket => {
 
     socket.on("leave", () => {
       socket.to(roomId).emit("leave");
+    });
+
+    socket.on("screen-shared", () => {
+      socket.to(roomId).emit("screen-shared");
+    });
+
+    socket.on("stop-screen-share", () => {
+      socket.to(roomId).emit("stop-screen-share");
     });
   });
 });

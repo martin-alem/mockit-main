@@ -17,6 +17,10 @@ const InterviewSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  participants: {
+    type: Number,
+    required: true,
+  },
   question: {
     type: mongoose.Types.ObjectId,
     required: false,

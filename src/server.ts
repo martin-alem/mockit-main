@@ -62,8 +62,6 @@ io.on("connect", socket => {
   socket.on("create-room", payload => {
     const { roomId } = payload;
     socket.join(roomId);
-    // const n = io.sockets.adapter.rooms.get(roomId);
-    // if(n?.size === 1){}
   });
 
   socket.on("join-room", payload => {
@@ -75,7 +73,7 @@ io.on("connect", socket => {
   socket.on("in-room", payload => {
     const { roomId } = payload;
     socket.join(roomId);
-    socket.emit( "in-room" );
+    socket.emit("in-room");
 
     socket.on("sdp-offer", offer => {
       socket.to(roomId).emit("sdp-offer", offer);

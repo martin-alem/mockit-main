@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import ErrorHandler from "./../utils/ErrorHandler.js";
 import Logger from "./../utils/Logger.js";
-import mongoose from "mongoose";
 import InterviewModel from "./../model/InterviewModel.js";
 import { findOne } from "./../service/query.js";
 

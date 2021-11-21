@@ -3,10 +3,12 @@ import ErrorHandler from "../utils/ErrorHandler.js";
 import createInterview from "./../controller/createInterview.js";
 import validateInterviewMiddleware from "./../middleware/validateInterviewMiddleware.js";
 import getInterview from "./../controller/getInterview.js"
+import updateInterview from "../controller/updateInterview.js";
 const interviewRouter: Router = express.Router();
 
 interviewRouter.post( "/", [ validateInterviewMiddleware, createInterview ] );
-interviewRouter.get("/:room", [getInterview])
+interviewRouter.get( "/:room", [ getInterview ] )
+interviewRouter.put("/:interviewId", [updateInterview])
 
 interviewRouter.use((error: ErrorHandler, req: Request, res: Response, next: NextFunction) => {
   res.status(error.statusCode).json({ status: "fail", statusCode: error.statusCode, message: error.message });

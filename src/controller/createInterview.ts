@@ -22,6 +22,11 @@ async function createInterview(req: Request, res: Response, next: NextFunction) 
     interview["startTime"] = new Date();
     const result = await insertOne(InterviewModel, interview);
     if (result) {
+      res.cookie("_interview_id", `${result["_id"]}`, {
+        expires: new Date(Date.now() + 1 * 3600000),
+        // domain: ".mockit.org",
+        sameSite: "lax",
+      });
       res.status(201).json({ status: "ok", statusCode: 201, interview });
     } else {
       next(new ErrorHandler("Internal server error", 500));

@@ -33,7 +33,7 @@ app.use(express.json());
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: "https://mockit.org",
+    origin: "*",
     methods: ["GET", "POST", "DELETE", "OPTIONS", "PUT"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -64,12 +64,23 @@ io.on("connect", socket => {
     socket.join(roomId);
     // const n = io.sockets.adapter.rooms.get(roomId);
     // if(n?.size === 1){}
+  });
+
+  socket.on("join-room", payload => {
+    const { roomId } = payload;
+    socket.join(roomId);
     socket.to(roomId).emit("friend-in-lobby");
-    socket.to(roomId).emit("friend-join");
+  });
+
+  socket.on("in-room", payload => {
+    const { roomId } = payload;
+    socket.join(roomId);
+    socket.emit( "in-room" );
 
     socket.on("sdp-offer", offer => {
       socket.to(roomId).emit("sdp-offer", offer);
     });
+
     socket.on("sdp-answer", answer => {
       socket.to(roomId).emit("sdp-answer", answer);
     });
